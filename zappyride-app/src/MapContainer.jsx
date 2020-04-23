@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 export const MapContainer = ({google}) => {
-	const [results, setResults] = useState({});
+	const [results, setResults] = useState([]);
 
 	const callApi = () => {
 	    fetch('https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=h8pP3dk3ZPgI694vYTHSFmgNboSVlXdknQ4hjNep&latitude=47.7511&longitude=-120.7401&radius=infinite&limit=all&state=WA')
