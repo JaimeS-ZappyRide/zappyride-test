@@ -9,7 +9,7 @@ export const FilterBox = ({refetch}) => {
     const statOptions = ["All", "Available", "Planned", "Temporarily Unavailable"];
     const netOptions = ["All", "Blink Network", "ChargePoint Network", "Circuit électrique", "eCharge Network", "Electrify America", "Electrify Canada", "EV Connect", "eVgo Network", "FLO", "FCN", "GE WattStation", "Greenlots", "Non-Networked", "OpConnect", "SemaCharge Network", "Sun Country Highway", "Tesla Destination", "Tesla", "Volta", "Webasto"]
     const levelOptions = ["All", "Level 1", "Level 2", "DC Fast", "Legacy"]
-    const [filters, setFilters] = useState({connector: connOptions, status: statOptions, network: netOptions, level: levelOptions});
+    const [filters, setFilters] = useState({connector: connOptions, status: ["Available"], network: netOptions, level: levelOptions});
 
     const getActiveFilters = (event, currFilters, options)  => {
         if (!currFilters.includes(event)) {
