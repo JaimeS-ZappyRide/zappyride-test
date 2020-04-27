@@ -1,0 +1,4 @@
+.filterBox {
+    display: flex;
+    flex-wrap: wrap;
+}

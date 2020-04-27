@@ -1,0 +1,37 @@
+.headerText {
+    padding: 10px 10px 5px 10px;
+    font-size: 24px;
+    font-family: "Bitter";
+}
+
+.logo1 {
+    padding-left: 10px;
+    color: #707c8c;
+    font-size: 32px;
+    font-family: "Bitter";
+}
+
+.logo2 {
+    color: #3dcc85;
+    font-size: 32px;
+    font-family: "Bitter";
+}
+
+.header {
+    padding: 10px;
+    background-color: #c7edda;
+    border-bottom: 3px solid #3dcc85;
+    display: flex;
+    align-items: center;
+}
+
+.img {
+    width: 45px;
+    height: 45px;
+}
+
+.filters {
+    padding: 5px 10px 10px 10px;
+    position: fixed;
+    z-index: 9;
+}

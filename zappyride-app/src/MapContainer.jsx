@@ -1,29 +1,24 @@
-import React, { useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import './App.css';
 
-export const MapContainer = ({google}) => {
-	const [results, setResults] = useState([]);
-
-	const callApi = () => {
-	    fetch('https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=h8pP3dk3ZPgI694vYTHSFmgNboSVlXdknQ4hjNep&latitude=47.7511&longitude=-120.7401&radius=infinite&limit=all&state=WA')
-	        .then(res => res.json())
-	        .then(res => setResults(res.fuel_stations));
-    }
-
+const MapContainer = ({google, results}) => {
 	return (
-		<div>
-			<Map google={google} initialCenter={{lat: 47.6062, lng: -122.3321}} onReady={callApi}>
-				{results.length && results.map(stn => {
-					return <Marker key={stn.id} position={{lat: stn.latitude, lng: stn.longitude}}/>
-				})}
-			</Map>
-		</div>
+		<Map style={{
+			width: "100%",
+			marginLeft: 0
+		  }}google={google} initialCenter={{lat: 47.6062, lng: -122.3321}}>
+			{results.length && results.map(stn => {
+				return <Marker key={stn.id} position={{lat: stn.latitude, lng: stn.longitude}}/>
+			})}
+		</Map>
 	);
 }
 
 MapContainer.propTypes = {
-    google: PropTypes.object,
+	google: PropTypes.object,
+	results: PropTypes.array,
 };
 
 export default GoogleApiWrapper({
