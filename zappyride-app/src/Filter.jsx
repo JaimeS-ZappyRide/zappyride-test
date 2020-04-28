@@ -3,8 +3,7 @@ import { Dropdown } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import './Filter.css';
 
-export const Filter = ({title, options, onSelect, active}) => {
-
+export const Filter = ({ title, options, onSelect, active }) => {
 	return (
 		<Dropdown>
         <Dropdown.Toggle className="toggle">{title} </Dropdown.Toggle>

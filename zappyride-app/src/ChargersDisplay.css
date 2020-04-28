@@ -1,0 +1,33 @@
+.filters {
+    padding: 5px 10px 10px 10px;
+    position: fixed;
+    z-index: 9;
+}
+
+.searchBox {
+	padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    font-size: 14px;
+    color: #707c8c;
+    align-items: center;
+    background-color: white;
+    width: fit-content;
+    border: 1px solid #707c8c;
+}
+
+.input {
+    border: none;
+    text-align: right;
+    color: #3dcc85;
+    border-bottom: 1px solid #707c8c;
+}
+
+.input:hover {
+    cursor: pointer;
+}
+
+.inputLabel {
+    white-space: pre-wrap;
+    border-bottom: 1px solid white;
+}

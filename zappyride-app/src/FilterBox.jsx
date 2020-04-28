@@ -1,16 +1,18 @@
 import React, { useState} from 'react';
 import PropTypes from 'prop-types';
 import { Filter } from './Filter';
-import './FilterBox.css';
 import { useEffect } from 'react';
+import './FilterBox.css';
 
-export const FilterBox = ({refetch}) => {
+export const FilterBox = ({ refetch }) => {
     const connOptions = ["All", "NEMA 14-50", "NEMA 5-15", "NEMA 5-20", "J1772", "CCS", "CHAdeMO", "Tesla"];
     const statOptions = ["All", "Available", "Planned", "Temporarily Unavailable"];
     const netOptions = ["All", "Blink Network", "ChargePoint Network", "Circuit électrique", "eCharge Network", "Electrify America", "Electrify Canada", "EV Connect", "eVgo Network", "FLO", "FCN", "GE WattStation", "Greenlots", "Non-Networked", "OpConnect", "SemaCharge Network", "Sun Country Highway", "Tesla Destination", "Tesla", "Volta", "Webasto"]
     const levelOptions = ["All", "Level 1", "Level 2", "DC Fast", "Legacy"]
-    const [filters, setFilters] = useState({connector: connOptions, status: ["Available"], network: netOptions, level: levelOptions});
+    const accessOptions = ["All", "Public", "Private"];
+    const [filters, setFilters] = useState({connector: connOptions, status: ["Available"], network: netOptions, level: levelOptions, access: ["Public"]});
 
+    // Updates the active options for a given filter.
     const getActiveFilters = (event, currFilters, options)  => {
         if (!currFilters.includes(event)) {
             // Add element to active filters. If "All", add all options.
@@ -27,6 +29,7 @@ export const FilterBox = ({refetch}) => {
         }
     }
     
+    // When user changes the connector filter, update which options are active.
     const onConnectorSelect = event => {
         const activeFilters = getActiveFilters(event, filters.connector, connOptions);
         setFilters({...filters, connector: activeFilters});
@@ -45,6 +48,11 @@ export const FilterBox = ({refetch}) => {
     const onLevelSelect = event => {
         const activeFilters = getActiveFilters(event, filters.level, levelOptions);
         setFilters({...filters, level: activeFilters});
+    }
+
+    const onAccessSelect = event => {
+        const activeFilters = getActiveFilters(event, filters.access, accessOptions);
+        setFilters({...filters, access: activeFilters});
     }
 
     // Refetches when filters state changes.
@@ -77,6 +85,12 @@ export const FilterBox = ({refetch}) => {
                 options={levelOptions} 
                 onSelect={onLevelSelect}
                 active={filters.level}
+            />
+            <Filter 
+                title="Access" 
+                options={accessOptions} 
+                onSelect={onAccessSelect}
+                active={filters.access}
             />
         </div>
 	);
