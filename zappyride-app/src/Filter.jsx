@@ -11,7 +11,7 @@ export const Filter = ({ title, options, onSelect, active }) => {
           {options.map(
               opt => 
                 <div key={opt}>
-                    {active.includes(opt) ? 
+                    {active === opt ? 
                         <Dropdown.Item className="boldItem" eventKey={opt} onSelect={onSelect}>
                             {opt}
                         </Dropdown.Item> :
@@ -19,7 +19,6 @@ export const Filter = ({ title, options, onSelect, active }) => {
                             {opt}
                         </Dropdown.Item>
                     }
-                    {opt === "All" && <Dropdown.Divider/>}
                   </div>)
           }
           </Dropdown.Menu>
@@ -31,5 +30,5 @@ Filter.propTypes = {
     title: PropTypes.string,
     options: PropTypes.array,
     onSelect: PropTypes.func,
-    active: PropTypes.array,
+    active: PropTypes.string,
 };

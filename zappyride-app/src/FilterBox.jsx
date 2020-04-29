@@ -10,49 +10,13 @@ export const FilterBox = ({ refetch }) => {
     const netOptions = ["All", "Blink Network", "ChargePoint Network", "Circuit électrique", "eCharge Network", "Electrify America", "Electrify Canada", "EV Connect", "eVgo Network", "FLO", "FCN", "GE WattStation", "Greenlots", "Non-Networked", "OpConnect", "SemaCharge Network", "Sun Country Highway", "Tesla Destination", "Tesla", "Volta", "Webasto"]
     const levelOptions = ["All", "Level 1", "Level 2", "DC Fast", "Legacy"]
     const accessOptions = ["All", "Public", "Private"];
-    const [filters, setFilters] = useState({connector: connOptions, status: ["Available"], network: netOptions, level: levelOptions, access: ["Public"]});
+    const [filters, setFilters] = useState({connector: "All", status: "Available", network: "All", level: "All", access: "Public"});
 
-    // Updates the active options for a given filter.
-    const getActiveFilters = (event, currFilters, options)  => {
-        if (!currFilters.includes(event)) {
-            // Add element to active filters. If "All", add all options.
-            return event === "All" ? options : [...currFilters, event]
-        } else {
-            // Remove element from active filters.
-            if (event === "All") {
-                return[];
-            } else if (currFilters.includes("All")) {
-                return currFilters.filter(a => a !== event && a !== "All");
-            } else {
-                return currFilters.filter(a => a !== event);
-            }
+    // Updates the current filter.
+    const onSelect = (event, field) => {
+        if (filters[field] !== event) {
+            setFilters({...filters, [field]: event});
         }
-    }
-    
-    // When user changes the connector filter, update which options are active.
-    const onConnectorSelect = event => {
-        const activeFilters = getActiveFilters(event, filters.connector, connOptions);
-        setFilters({...filters, connector: activeFilters});
-    }
-
-    const onStatusSelect = event => {
-        const activeFilters = getActiveFilters(event, filters.status, statOptions);
-        setFilters({...filters, status: activeFilters});
-    }
-
-    const onNetworkSelect = event => {
-        const activeFilters = getActiveFilters(event, filters.network, netOptions);
-        setFilters({...filters, network: activeFilters});
-    }
-
-    const onLevelSelect = event => {
-        const activeFilters = getActiveFilters(event, filters.level, levelOptions);
-        setFilters({...filters, level: activeFilters});
-    }
-
-    const onAccessSelect = event => {
-        const activeFilters = getActiveFilters(event, filters.access, accessOptions);
-        setFilters({...filters, access: activeFilters});
     }
 
     // Refetches when filters state changes.
@@ -65,31 +29,31 @@ export const FilterBox = ({ refetch }) => {
             <Filter 
                 title="Connector Type" 
                 options={connOptions} 
-                onSelect={onConnectorSelect}
+                onSelect={e => onSelect(e, "connector")}
                 active={filters.connector}
             />
             <Filter 
                 title="Status" 
                 options={statOptions} 
-                onSelect={onStatusSelect}
+                onSelect={e => onSelect(e, "status")}
                 active={filters.status}
             />
             <Filter 
                 title="Network" 
                 options={netOptions} 
-                onSelect={onNetworkSelect}
+                onSelect={e => onSelect(e, "network")}
                 active={filters.network}
             />
             <Filter 
                 title="Level" 
                 options={levelOptions} 
-                onSelect={onLevelSelect}
+                onSelect={e => onSelect(e, "level")}
                 active={filters.level}
             />
             <Filter 
                 title="Access" 
                 options={accessOptions} 
-                onSelect={onAccessSelect}
+                onSelect={e => onSelect(e, "access")}
                 active={filters.access}
             />
         </div>

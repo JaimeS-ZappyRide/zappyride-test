@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
 import './MapContainer.css';
 
-const MapContainer = ({google, results}) => {
+const MapContainer = ({ google, results }) => {
 	const [activeMarker, setActiveMarker] = useState({});
 	const [showInfo, setShowInfo] = useState(false);
 
@@ -15,6 +15,10 @@ const MapContainer = ({google, results}) => {
 			setShowInfo(false);
 		}
 	}
+
+	useEffect(() => {
+        setShowInfo(false);
+    }, [results]);
 
 	return (
 		<Map style={{
@@ -43,7 +47,7 @@ const MapContainer = ({google, results}) => {
 					</tr>
 					<tr>
 						<td className="infoLabel">Hours:</td>
-						<td>{activeMarker.hours}</td>
+						<td>{activeMarker.hours && activeMarker.hours.includes("Not Specified") ? "Not Specified" : activeMarker.hours}</td>
 					</tr>
 					<tr>
 						<td className="infoLabel">Location:</td>
