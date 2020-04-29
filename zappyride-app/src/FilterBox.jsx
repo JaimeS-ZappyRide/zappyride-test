@@ -4,6 +4,11 @@ import { Filter } from './Filter';
 import { useEffect } from 'react';
 import './FilterBox.css';
 
+/**
+ * Contains filters for connector type status, network, and level.
+ * 
+ * @param {function} refetch - function to update filters in parent component and trigger refetch of map results
+ */
 export const FilterBox = ({ refetch }) => {
     const connOptions = ["All", "NEMA 14-50", "NEMA 5-15", "NEMA 5-20", "J1772", "CCS", "CHAdeMO", "Tesla"];
     const statOptions = ["All", "Available", "Planned", "Temporarily Unavailable"];

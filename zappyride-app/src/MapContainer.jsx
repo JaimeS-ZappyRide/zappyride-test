@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
 import './MapContainer.css';
 
-const MapContainer = ({ google, results }) => {
+/**
+ * Uses Google Maps component to display charging stations as markers.
+ * 
+ * @param {Object} google
+ * @param {Object[]} results - charging stations returned by API call 
+ * @param {Object} center - map center
+ */
+const MapContainer = ({ google, results, center }) => {
 	const [activeMarker, setActiveMarker] = useState({});
 	const [showInfo, setShowInfo] = useState(false);
 
@@ -24,7 +31,7 @@ const MapContainer = ({ google, results }) => {
 		<Map style={{
 			width: "100%",
 			marginLeft: 0
-		  }}google={google} initialCenter={{lat: 47.6062, lng: -122.3321}}>
+		  }} google={google} initialCenter={center} center={center}>
 			{results && results.length && results.map(stn => {
 				return <Marker 
 					key={stn.id} 
@@ -74,6 +81,7 @@ const MapContainer = ({ google, results }) => {
 MapContainer.propTypes = {
 	google: PropTypes.object,
 	results: PropTypes.array,
+	center: PropTypes.object,
 };
 
 export default GoogleApiWrapper({

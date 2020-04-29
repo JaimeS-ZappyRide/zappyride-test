@@ -3,18 +3,45 @@ import MapContainer from './MapContainer.jsx';
 import { FilterBox } from './FilterBox';
 import './ChargersDisplay.css';
 
-const api_key = "h8pP3dk3ZPgI694vYTHSFmgNboSVlXdknQ4hjNep";
-
+/**
+ * Displays all EV charging stations in Washington by interacting with the Nearest Stations and Google Maps Geocoder APIs.
+ * Allows user to filter results and to recenter the map by zip code.
+ */
 export const ChargersDisplay = () => {
     const [results, setResults] = useState([]);
-    const [filters, setFilters] = useState({lat: 47.7511, lng: -120.7401, rad: "infinite", status: "E", network: "all", level: "all", conn_type: "all", access: "public"});
+    const [filters, setFilters] = useState({lat: 47.6062, lng: -122.3321, rad: "infinite", status: "E", network: "all", level: "all", conn_type: "all", access: "public"});
+    const [center, setCenter] = useState({lat: filters.lat, lng: filters.lng});
+    const [city, setCity] = useState("Seattle");
+    const [inputClass, setInputClass] = useState("inputValid");
 
     // Fetches station data from the Nearest Stations API.
     const callApi = () => {
         const { lat, lng, rad, status, network, level, conn_type, access } = filters || {};
-        fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=${api_key}&latitude=${lat}&longitude=${lng}&radius=${rad}&status=${status}&ev_network=${network}&ev_charging_level=${level}&ev_connector_type=${conn_type}&access=${access}&limit=all&fuel_type=ELEC&state=WA`)
+        fetch(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=h8pP3dk3ZPgI694vYTHSFmgNboSVlXdknQ4hjNep&latitude=${lat}&longitude=${lng}&radius=${rad}&status=${status}&ev_network=${network}&ev_charging_level=${level}&ev_connector_type=${conn_type}&access=${access}&limit=all&fuel_type=ELEC&state=WA`)
             .then(res => res.json())
             .then(res => setResults(res.fuel_stations));
+    }
+
+    // Find the coordinates for an entered zip code and adjust the map center accordingly.
+    const callGeocoder = zip => {
+        if (zip.length === 5) {
+            fetch(`https://maps.googleapis.com/maps/api/geocode/json?bounds=-124.763068,45.543541|-116.915989,49.002494&address=${zip},+WA&key=AIzaSyBqgRvsHgJ5cuz6Spcdk6NDmQJ0V_uG_fY`)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.results.length > 0 && res.results[0].address_components.length > 3) {
+                        const state = res.results[0].address_components[3].short_name;
+                        if (state === "WA") {
+                            setCenter(res.results[0].geometry.location)
+                            setCity(res.results[0].address_components[2].long_name);
+                            setInputClass("inputValid");
+                        }
+                    } else {
+                        setInputClass("inputInvalid");
+                    }
+                });
+        } else {
+            setInputClass("inputInvalid");
+        }
     }
 
     // Refetches when filters state changes.
@@ -38,13 +65,14 @@ export const ChargersDisplay = () => {
         <React.Fragment>
             <div className="filters">
                 <div className="searchBox">
-                    <div className="inputLabel">Charging Stations in </div>
-                    <input type="text" defaultValue="Seattle" className="input" size="10"/>
-                    <div className="inputLabel">, WA</div>
+                    <div className="inputLabel">Find Charging Stations in: </div>
+                    <div className="inputLabelGreen">{city}</div>
+                    <div className="inputLabel">, WA </div>
+                    <input type="text" defaultValue="98101" className={inputClass} size="5" onChange={e => callGeocoder(e.target.value)}/>
                 </div>
                 <FilterBox refetch={refetchWithFilters}/>
             </div>
-            <MapContainer results={results}/>
+            <MapContainer results={results} center={center}/>
         </React.Fragment>
 	);
 }

@@ -16,10 +16,17 @@
     border: 1px solid #707c8c;
 }
 
-.input {
+.inputValid {
     border: none;
     text-align: right;
     color: #3dcc85;
+    border-bottom: 1px solid #707c8c;
+}
+
+.inputInvalid {
+    border: none;
+    text-align: right;
+    color: red;
     border-bottom: 1px solid #707c8c;
 }
 
@@ -30,4 +37,10 @@
 .inputLabel {
     white-space: pre-wrap;
     border-bottom: 1px solid white;
+}
+
+.inputLabelGreen {
+    white-space: pre-wrap;
+    border-bottom: 1px solid white;
+    color: #3dcc85;
 }
