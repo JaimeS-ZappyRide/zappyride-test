@@ -66,9 +66,11 @@ export const ChargersDisplay = () => {
             <div className="filters">
                 <div className="searchBox">
                     <div className="inputLabel">Find Charging Stations in: </div>
-                    <div className="inputLabelGreen">{city}</div>
-                    <div className="inputLabel">, WA </div>
-                    <input type="text" defaultValue="98101" className={inputClass} size="5" onChange={e => callGeocoder(e.target.value)}/>
+                    <div className="locationRow">
+                        <div className="inputLabelGreen">{city}</div>
+                        <div className="inputLabel">, WA </div>
+                        <input type="text" defaultValue="98101" className={inputClass} size="5" onChange={e => callGeocoder(e.target.value)}/>
+                    </div>
                 </div>
                 <FilterBox refetch={refetchWithFilters}/>
             </div>
